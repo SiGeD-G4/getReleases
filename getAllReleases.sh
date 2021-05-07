@@ -5,7 +5,7 @@ tag_frontend=(v0.1 v0.2 v0.3 v0.4 v0.5 v0.6 v0.7 v0.8 v0.9 v0.9.0 v0.10.0 v0.10.
 tag_sectors=(v0.1.0 v0.1.1 v1.0 v1.0.0 v1.0.1 v1.1.0 v1.1.1)
 tag_users=(v0.1 v0.2 v0.3 v0.3.0 v0.3.1 v0.3.2 v1.0.0 v1.0.1 v1.0.2)
 
-function run_updates {
+function run_sonar_on_tags {
   repo=$1
   tags=$@
   tags=( "${tags[@]/$repo}" )
@@ -20,6 +20,8 @@ function run_updates {
       echo $(date +'%m/%d/%Y %H:%M')
       echo $key;
       git reset $key
+      git add sonar-project.properties .github/workflows/sonarCoverage.yml
+      git commit -m "Add sonar properties"
       git push -f
       sleep 5m
       unset TAG
@@ -29,27 +31,23 @@ function run_updates {
   cd ..
 }
 
-# Update Clients
-echo "======= GET RELEASES FOR CLIENTS ======="
-cd 2020-2-SiGeD-Clients/
-run_updates "2020-2-SiGeD-Clients" ${tag_clients[@]}
+#echo "======= GET RELEASES FOR CLIENTS ======="
+#cd 2020-2-SiGeD-Clients/
+#run_sonar_on_tags "2020-2-SiGeD-Clients" ${tag_clients[@]}
 
-# Update Demands
-echo "======= GET RELEASES FOR DEMANDS ======="
-cd 2020-2-SiGeD-Demands/
-run_updates  "2020-2-SiGeD-Demands" ${tag_demands[@]} 
+#echo "======= GET RELEASES FOR DEMANDS ======="
+#cd 2020-2-SiGeD-Demands/
+#run_sonar_on_tags  "2020-2-SiGeD-Demands" ${tag_demands[@]} 
 
-# Update Frontend
-echo "======= GET RELEASES FOR FRONTEND ======="
-cd 2020-2-SiGeD-Frontend/
-run_updates  "2020-2-SiGeD-Frontend" ${tag_frontend[@]} 
+#echo "======= GET RELEASES FOR FRONTEND ======="
+#cd 2020-2-SiGeD-Frontend/
+#run_sonar_on_tags  "2020-2-SiGeD-Frontend" ${tag_frontend[@]} 
 
-# Update Sectors
-echo "======= GET RELEASES FOR SECTORS ======="
+#echo "======= GET RELEASES FOR SECTORS ======="
 cd 2020-2-SiGeD-Sectors/
-run_updates "2020-2-SiGeD-Sectors" ${tag_sectors[@]}
+run_sonar_on_tags "2020-2-SiGeD-Sectors" ${tag_sectors[@]}
 
-# Update Users
-echo "======= GET RELEASES FOR USERS ======="
-cd 2020-2-SiGeD-Users/
-run_updates "2020-2-SiGeD-Users" ${tag_users[@]}
+#echo "======= GET RELEASES FOR USERS ======="
+#cd 2020-2-SiGeD-Users/
+#run_sonar_on_tags "2020-2-SiGeD-Users" ${tag_users[@]}
+
